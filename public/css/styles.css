@@ -188,6 +188,10 @@ button {
             gap: 10px;
             i {
               cursor: pointer;
+
+              &.delete-icon {
+                color: crimson;
+              }
             }
             li {
               list-style: none;
@@ -217,13 +221,13 @@ button {
       .extra-option {
         display: flex;
         align-items: center;
-        gap: 10%;
+        gap: 12%;
         input {
           margin-right: 5px;
         }
         select,
         .value-taker {
-          width: 200px;
+          width: 150px;
           font-size: 14px;
         }
         font-size: 15px;
@@ -232,7 +236,7 @@ button {
 
       .footer {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         margin-top: 50px;
         align-items: center;
 
@@ -247,12 +251,17 @@ button {
             width: 120px;
             &.cancel {
               background: none;
-              text-decoration: underline;
               color: red;
+              border: 1px solid red;
             }
             &.draft {
               background: gray;
               color: #fff;
+            }
+            &.process {
+              border: 1px solid gray;
+              background: transparent;
+              color: #2d3142;
             }
             &.send {
               background-color: #f2af29;
@@ -293,14 +302,20 @@ button {
               border-radius: 10px;
               font-weight: 500;
               font-size: 14px;
+              cursor: pointer;
 
               i {
                 margin-right: 5px;
               }
-            }
-
-            .email {
-              background-color: #fff;
+              &.email {
+                background-color: #fff;
+              }
+              &.edit {
+                color: #cecbcb;
+                &.active {
+                  color: #2d3142;
+                }
+              }
             }
           }
         }
@@ -334,6 +349,12 @@ button {
                 margin-bottom: 0;
                 font-size: 15px;
               }
+
+              .right {
+                p {
+                  text-align: right;
+                }
+              }
             }
           }
           .body__ {
@@ -345,6 +366,7 @@ button {
               color: #fff;
               justify-content: space-between;
               padding: 10px 20px;
+              margin-bottom: 5px;
 
               p {
                 margin-bottom: 0;
@@ -355,12 +377,18 @@ button {
               list-style: none;
               display: flex;
               padding-left: 0;
-              padding: 15px 20px;
+              padding: 9px 20px;
               justify-content: space-between;
               border-bottom: 1px solid #e7e7e7;
+              margin-bottom: 0;
+
+              li {
+                font-size: 14px;
+              }
             }
 
             .totals {
+              margin-top: 20px;
               div {
                 display: flex;
                 padding: 5px 15px;
@@ -385,6 +413,23 @@ button {
               .qr i {
                 font-size: 140px;
               }
+            }
+          }
+
+          .empty__bill_container {
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            img {
+              width: 20%;
+            }
+            h4 {
+              font-size: 15px;
+              margin-top: 10px;
+              color: #bbbaba;
+              font-weight: 400;
             }
           }
         }
