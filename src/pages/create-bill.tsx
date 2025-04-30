@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import ImageOne from "../assets/maths.png";
+import { useState } from "react";
+// import ImageOne from "../assets/maths.png";
 import ImageBill from "../assets/bill.png";
 import { toast } from "react-toastify";
 import { BillCreateStructure, ProcessedBill } from "../utils/types";
@@ -16,21 +16,22 @@ const initialStructure: BillCreateStructure = {
 
 export function CreateBill() {
   const navigate = useNavigate();
-  const [createNewBill, setCreateNewBill] = useState(true);
+  // const [createNewBill, setCreateNewBill] = useState(true);
   const [billStructure, setBillStructure] = useState<BillCreateStructure[]>([
     initialStructure,
   ]);
-  const [inPreview, setInPreview] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [screenPage, setScreenPage] = useState(1);
+  // const [inPreview, setInPreview] = useState(false);
+  const [loading] = useState(false);
   const [processing, setProcessing] = useState(false);
-  const [savingAsDraft, setSavingAsDraft] = useState(false);
-  const [sendingBill, setSendingBill] = useState(false);
+  // const [savingAsDraft, setSavingAsDraft] = useState(false);
+  // const [sendingBill, setSendingBill] = useState(false);
   const [edit, setEdit] = useState(true);
   const [processedBill, setProcessedBill] = useState<ProcessedBill | null>(
     null
   );
-  const [lastReviewedTime, setLastReviewedTime] = useState(null);
-  const [totalAmount, setTotalAmount] = useState(0);
+  // const [lastReviewedTime, setLastReviewedTime] = useState(null);
+  // const [totalAmount, setTotalAmount] = useState(0);
   const [user, setUser] = useState({
     class: "",
     session: "",
@@ -42,6 +43,8 @@ export function CreateBill() {
     value: 0,
     useDiscount: false,
   });
+
+  console.log({ screenPage });
 
   // console.log({ billStructure, inPreview });
 
@@ -129,6 +132,8 @@ export function CreateBill() {
       total: amount,
       discount: discountValue,
     });
+    setProcessing(false);
+    setScreenPage(2);
   };
 
   return (
@@ -148,188 +153,213 @@ export function CreateBill() {
       </div>
       <div className='content'>
         <div className='row'>
-          <div className='col-6'>
-            <div className='_left'>
-              <h4>Invoice Details</h4>
-              <div className='user__'>
-                <label>Student Name</label>
-                <input
-                  className='form-control'
-                  placeholder='Student Name'
-                  onChange={({ target: { value } }) =>
-                    setUser({ ...user, student: value })
-                  }
-                />
-              </div>{" "}
-              <div className='user__'>
-                <label>Parents/Guardian Name</label>
-                <input
-                  className='form-control'
-                  placeholder='Parent/Guardian Name'
-                  onChange={({ target: { value } }) =>
-                    setUser({ ...user, parent: value })
-                  }
-                />
-              </div>
-              <div className='user__'>
-                <label>Session</label>
-                <input
-                  className='form-control'
-                  placeholder='2025/2026'
-                  onChange={({ target: { value } }) =>
-                    setUser({ ...user, session: value })
-                  }
-                />
-              </div>
-              <div className='user__'>
-                <label>Class</label>
-                <select
-                  className='form-control'
-                  onChange={({ target: { value } }) =>
-                    setUser({ ...user, class: value })
-                  }
-                >
-                  <option selected disabled>
-                    Select Student's Class
-                  </option>
-                  {CLASSES.map((el) => (
-                    <option key={el} value={el}>
-                      {el}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className='bill-structure'>
-                <h3>Bill</h3>
-                <div className='structure-header'>
-                  <p>Description</p>
-                  <p>Amount({NAIRA_SYMBOL})</p>
-                </div>
-                {billStructure.map((el) => (
-                  <div className='item' key={el.index}>
-                    <div>
-                      {billStructure.length > 1 ? (
-                        !el.index ? (
-                          <i
-                            className='bi bi-arrow-down-circle-fill'
-                            onClick={() => handleMoveDown(el)}
-                          ></i>
-                        ) : (
-                          <i
-                            className='bi bi-arrow-up-circle-fill'
-                            onClick={() => handleMoveUp(el)}
-                          ></i>
-                        )
-                      ) : null}
-                      <li>
-                        <input
-                          className='form-control'
-                          placeholder='Key Identifier'
-                          value={el.key}
-                          onChange={({ target: { value } }) => {
-                            const row = billStructure[el.index];
-                            row["key"] = value;
-                            billStructure[el.index] = { ...row };
-                            setBillStructure([...billStructure]);
-                          }}
-                          disabled={loading || !edit}
-                        />
-                      </li>
-                    </div>
-                    <div>
-                      <li>
-                        <input
-                          className='form-control'
-                          placeholder='Key Value'
-                          value={`${NAIRA_SYMBOL} ${formatMoney(el.value)}`}
-                          onChange={({ target: { value } }) => {
-                            const row = billStructure[el.index];
-                            const cleanedValue = Number(
-                              value.replace(/[^0-9]/g, "")
-                            );
-                            row["value"] = Number(cleanedValue);
-                            billStructure[el.index] = { ...row };
-                            setBillStructure([...billStructure]);
-                          }}
-                          disabled={loading || !edit}
-                        />
-                      </li>
-                      {billStructure.length > 1 && el.index ? (
-                        <i
-                          className='bi bi-trash delete-icon'
-                          onClick={() => handleRemoveItem(el)}
-                        />
-                      ) : null}
-                    </div>
-                  </div>
-                ))}
-                <div className='add-new' onClick={handleAddToBillStructure}>
-                  <i className='bi bi-node-plus'></i>Add New Line
-                </div>
-              </div>
-              <div className='extra-option'>
-                <div>
+          <div className='col-md-6 col-12'>
+            {screenPage === 1 ? (
+              <div className='_left'>
+                <h4>Invoice Details</h4>
+                <div className='user__'>
+                  <label>Student Name</label>
                   <input
-                    type='checkbox'
-                    onChange={({ target: { value, checked } }) => {
-                      console.log({ value, checked });
-                      if (checked)
-                        return setDiscount({
-                          ...discount,
-                          useDiscount: checked,
-                        });
-                      else
-                        setDiscount({
-                          useDiscount: false,
-                          type: "",
-                          value: 0,
-                        });
-                    }}
-                  />
-                  Add Discount
-                </div>
-                {discount?.useDiscount ? (
-                  <select
-                    className='form-select'
+                    className='form-control'
+                    placeholder='Student Name'
                     onChange={({ target: { value } }) =>
-                      setDiscount({ ...discount, type: value })
+                      setUser({ ...user, student: value })
+                    }
+                  />
+                </div>{" "}
+                <div className='user__'>
+                  <label>Parents/Guardian Name</label>
+                  <input
+                    className='form-control'
+                    placeholder='Parent/Guardian Name'
+                    onChange={({ target: { value } }) =>
+                      setUser({ ...user, parent: value })
+                    }
+                  />
+                </div>
+                <div className='user__'>
+                  <label>Session</label>
+                  <input
+                    className='form-control'
+                    placeholder='2025/2026'
+                    onChange={({ target: { value } }) =>
+                      setUser({ ...user, session: value })
+                    }
+                  />
+                </div>
+                <div className='user__'>
+                  <label>Class</label>
+                  <select
+                    className='form-control'
+                    onChange={({ target: { value } }) =>
+                      setUser({ ...user, class: value })
                     }
                   >
-                    <option>Select Format</option>
-                    {["Percentage", "Value"].map((el) => (
-                      <option key={el}>{el}</option>
+                    <option selected disabled>
+                      Select Student's Class
+                    </option>
+                    {CLASSES.map((el) => (
+                      <option key={el} value={el}>
+                        {el}
+                      </option>
                     ))}
                   </select>
-                ) : null}
-                {discount?.type ? (
-                  <input
-                    className='form-control value-taker'
-                    onChange={({ target: { value } }) =>
-                      setDiscount({ ...discount, value: Number(value) })
-                    }
-                  />
-                ) : null}
-              </div>
-              <div className='footer'>
-                {/* <p>Last saved: Today at 4:04pm</p> */}
-                <div className='actions'>
-                  <button
-                    className='process'
-                    onClick={handleProcessBill}
-                    disabled={processing}
-                  >
-                    {processing ? <Loading /> : "Process"}
-                  </button>
-                  <button className='draft'>Save as Draft</button>
-                  <button className='cancel' onClick={handleCancelBill}>
-                    Cancel
-                  </button>
-                  <button className='send'>Send Bill</button>
+                </div>
+                <div className='bill-structure'>
+                  <h3>Bill</h3>
+                  <div className='structure-header'>
+                    <p>Description</p>
+                    <p>Amount({NAIRA_SYMBOL})</p>
+                  </div>
+                  {billStructure.map((el) => (
+                    <div className='item' key={el.index}>
+                      <div>
+                        {billStructure.length > 1 ? (
+                          !el.index ? (
+                            <i
+                              className='bi bi-arrow-down-circle-fill'
+                              onClick={() => handleMoveDown(el)}
+                            ></i>
+                          ) : (
+                            <i
+                              className='bi bi-arrow-up-circle-fill'
+                              onClick={() => handleMoveUp(el)}
+                            ></i>
+                          )
+                        ) : null}
+                        <li>
+                          <input
+                            className='form-control'
+                            placeholder='Key Identifier'
+                            value={el.key}
+                            onChange={({ target: { value } }) => {
+                              const row = billStructure[el.index];
+                              row["key"] = value;
+                              billStructure[el.index] = { ...row };
+                              setBillStructure([...billStructure]);
+                            }}
+                            disabled={loading || !edit}
+                          />
+                        </li>
+                      </div>
+                      <div>
+                        <li>
+                          <input
+                            className='form-control'
+                            placeholder='Key Value'
+                            value={`${NAIRA_SYMBOL} ${formatMoney(el.value)}`}
+                            onChange={({ target: { value } }) => {
+                              const row = billStructure[el.index];
+                              const cleanedValue = Number(
+                                value.replace(/[^0-9]/g, "")
+                              );
+                              row["value"] = Number(cleanedValue);
+                              billStructure[el.index] = { ...row };
+                              setBillStructure([...billStructure]);
+                            }}
+                            disabled={loading || !edit}
+                          />
+                        </li>
+                        {billStructure.length > 1 && el.index ? (
+                          <i
+                            className='bi bi-trash delete-icon'
+                            onClick={() => handleRemoveItem(el)}
+                          />
+                        ) : null}
+                      </div>
+                    </div>
+                  ))}
+                  <div className='add-new' onClick={handleAddToBillStructure}>
+                    <i className='bi bi-node-plus'></i>Add New Line
+                  </div>
+                </div>
+                <div className='extra-option'>
+                  <div>
+                    <input
+                      type='checkbox'
+                      onChange={({ target: { value, checked } }) => {
+                        console.log({ value, checked });
+                        if (checked)
+                          return setDiscount({
+                            ...discount,
+                            useDiscount: checked,
+                          });
+                        else
+                          setDiscount({
+                            useDiscount: false,
+                            type: "",
+                            value: 0,
+                          });
+                      }}
+                    />
+                    Add Discount
+                  </div>
+                  {discount?.useDiscount ? (
+                    <select
+                      className='form-select'
+                      onChange={({ target: { value } }) =>
+                        setDiscount({ ...discount, type: value })
+                      }
+                    >
+                      <option>Select Format</option>
+                      {["Percentage", "Value"].map((el) => (
+                        <option key={el}>{el}</option>
+                      ))}
+                    </select>
+                  ) : null}
+                  {discount?.type ? (
+                    <input
+                      className='form-control value-taker'
+                      onChange={({ target: { value } }) =>
+                        setDiscount({ ...discount, value: Number(value) })
+                      }
+                    />
+                  ) : null}
+                </div>
+                <div className='footer'>
+                  {/* <p>Last saved: Today at 4:04pm</p> */}
+                  <div className='actions _desktop'>
+                    <button
+                      className='process'
+                      onClick={handleProcessBill}
+                      disabled={processing}
+                    >
+                      {processing ? <Loading /> : "Process"}
+                    </button>
+                    <button className='draft'>Save as Draft</button>
+                    <button className='cancel' onClick={handleCancelBill}>
+                      Cancel
+                    </button>
+                    <button className='send'>Send Bill</button>
+                  </div>
+                  <div className='actions _mobile'>
+                    <button
+                      className='process'
+                      onClick={async () => {
+                        await handleProcessBill();
+                      }}
+                      disabled={loading || processing}
+                    >
+                      {loading || processing ? <Loading /> : "Process"}
+                    </button>
+                    {/* <button className='draft'>Save as Draft</button> */}
+                    <button className='cancel'>Cancel</button>
+                    {/* <button className='send'>Send Bill</button> */}
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className='mobile-preview'>
+                <BillPreviewMobile
+                  edit={edit}
+                  setEdit={setEdit}
+                  processedBill={processedBill}
+                  user={user}
+                />
+              </div>
+            )}
           </div>
-          <div className='col-6 _right'>
+          <div className='col-md-6 col-12 _right'>
             <div className='content'>
               <div className='header'>
                 <h5>
@@ -448,6 +478,141 @@ export function CreateBill() {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function BillPreviewMobile({
+  edit,
+  setEdit,
+  processedBill,
+  user,
+}: {
+  edit: boolean;
+  setEdit: (value: boolean) => void;
+  processedBill: ProcessedBill | null;
+  user: {
+    class: string;
+    session: string;
+    student: string;
+    parent: string;
+  };
+}) {
+  return (
+    <div className='mobile-preview__'>
+      <div className='header'>
+        <h5>
+          Preview <i className='bi bi-info-circle'></i>
+        </h5>
+        <div className='actions'>
+          <div
+            className={`edit ${!edit ? "active" : ""}`}
+            onClick={() => {
+              console.log({ edit });
+              if (edit) return;
+              setEdit(true);
+            }}
+          >
+            <i className='bi bi-pen edit'></i>
+            <span>Edit</span>
+          </div>
+          <div>
+            <i className='bi bi-file-earmark-pdf-fill'></i>
+            <span>PDF</span>
+          </div>
+          <div className='email'>
+            <i className='bi bi-envelope'></i>
+            <span>Email</span>
+          </div>
+          <div className=''>
+            <i className='bi bi-file-spreadsheet'></i>
+            <span>Payment page</span>
+          </div>
+        </div>
+      </div>
+      <div className='bill-preview'>
+        <div className='header__'>
+          <h3>The Crystal School</h3>
+          <div className='info'>
+            <div className='left'>
+              <h6>Bill For</h6>
+              <p>{user?.class || "-"}</p>
+            </div>
+            <div className='right'>
+              <h6>{user?.student || "-"}</h6>
+              <p>{user?.session || "-"}</p>
+            </div>
+          </div>
+        </div>
+        {processedBill?.items?.length ? (
+          <div className='body__'>
+            <div className='title'>
+              <p>Description</p>
+              <p>Amount</p>
+            </div>
+            {processedBill?.items.map((el) => (
+              <ul key={el?.key}>
+                <li>{el?.key}</li>
+                <li>
+                  {NAIRA_SYMBOL} {formatMoney(el?.value)}
+                </li>
+              </ul>
+            ))}
+            <div className='totals'>
+              <div className=''>
+                <p>Subtotal</p>
+                <p>
+                  {NAIRA_SYMBOL}
+                  {formatMoney(processedBill?.subtotal || 0)}
+                </p>
+              </div>
+              <div className=''>
+                <p>Discount (10%)</p>
+                <p>
+                  {NAIRA_SYMBOL}
+                  {formatMoney(processedBill?.discount || 0)}
+                </p>
+              </div>
+              <div className='bolder'>
+                <p className=''>Total</p>
+                <p>
+                  {NAIRA_SYMBOL}
+                  {formatMoney(processedBill?.total || 0)}
+                </p>
+              </div>
+              <div className='bolder'>
+                <p>Amount Due</p>
+                <p>
+                  {NAIRA_SYMBOL}
+                  {formatMoney(processedBill?.total || 0)}
+                </p>
+              </div>
+            </div>
+            <div className='payment'>
+              <div className='qr'>
+                <i className='bi bi-qr-code'></i>
+              </div>
+              <p>
+                You can send the money{" "}
+                <b>
+                  <i>
+                    {NAIRA_SYMBOL} {formatMoney(processedBill?.total || 0)}{" "}
+                  </i>
+                </b>{" "}
+                to <b>ACCESS BANK</b>
+                <i className='bi bi-dot'></i>
+                <b>01291019101</b> <i className='bi bi-dot'></i>
+                <b>The Crystal School</b>
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className='empty__bill_container'>
+            <img src={ImageBill} alt='img-bill' className='form-control' />
+            <h4>Bill has not been processed yet!</h4>
+          </div>
+        )}
       </div>
     </div>
   );

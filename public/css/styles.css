@@ -139,7 +139,7 @@ button {
 
     ._left {
       position: relative;
-      padding-right: 150px;
+      width: 350px;
 
       .user__ {
         margin-bottom: 15px;
@@ -181,6 +181,7 @@ button {
           align-items: center;
           padding: 8px;
           border-radius: 10px;
+          gap: 5px;
 
           div {
             display: flex;
@@ -239,6 +240,7 @@ button {
         justify-content: center;
         margin-top: 50px;
         align-items: center;
+        width: 350px;
 
         p {
           margin-bottom: 0;
@@ -247,8 +249,10 @@ button {
         .actions {
           display: flex;
           gap: 10px;
+          flex-wrap: wrap;
+          justify-content: center;
           button {
-            width: 120px;
+            width: 150px;
             &.cancel {
               background: none;
               color: red;
@@ -268,6 +272,10 @@ button {
               color: #fff;
             }
           }
+
+          &._mobile {
+            display: none;
+          }
         }
       }
     }
@@ -283,6 +291,11 @@ button {
 
         .header {
           padding: 10px 0px;
+          flex-wrap: wrap;
+          gap: 10px;
+          border: none;
+          justify-content: center;
+
           h5 {
             margin-bottom: 0;
             font-weight: 700;
@@ -322,6 +335,7 @@ button {
 
         .bill-preview {
           background-color: #fff;
+          margin-top: 15px;
           min-height: 500px;
           .header__ {
             height: 150px;
@@ -438,269 +452,6 @@ button {
   }
 }
 
-/* .create-bill-container {
-  .header {
-    background-color: #2d3142;
-    width: 100%;
-    height: 40px;
-    border-radius: 10px;
-  }
-  .edit-bar {
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 30px;
-
-    button {
-      width: 120px;
-    }
-  }
-  .bill-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100dvh;
-
-    .create-wrapper {
-      border: 1px dashed #2d3142;
-      width: fit-content;
-      padding: 22px;
-      border-radius: 35%;
-      display: flex;
-      justify-content: center;
-      height: 150px;
-      width: 170px;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-
-      img {
-        width: 50%;
-      }
-      p {
-        width: fit-content;
-        margin-bottom: 0;
-        font-size: 14px;
-        font-weight: 700;
-      }
-    }
-
-    .bill-form-wrapper {
-      text-align: center;
-      .create-bill-form {
-        border: 1px solid #e7e7e7;
-        border-radius: 20px;
-        box-shadow: 0px 2px 2px -1px #0000000a;
-        width: 400px;
-        min-height: 500px;
-        padding: 15px;
-        position: relative;
-
-        .term {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        select.terms-select {
-          width: 20%;
-          text-align: center;
-          margin-right: 10px;
-        }
-
-        p {
-          margin-bottom: 4px;
-          text-align: center;
-        }
-
-        ul {
-          padding: 1rem 0;
-          margin-top: 10px;
-          div {
-            position: relative;
-            &.wrapper {
-              background-color: #eae8ff45;
-              padding: 7px;
-              border-radius: 5px;
-              margin-bottom: 10px;
-
-              .controls {
-                display: flex;
-                justify-content: space-between;
-                i {
-                  margin-bottom: 10px;
-                  cursor: pointer;
-
-                  &:first-child {
-                    position: absolute;
-                    top: -20px;
-                    left: -15px;
-                  }
-
-                  &.cancel {
-                    color: #a50104;
-                    position: absolute;
-                    right: -13px;
-                    top: -18px;
-                  }
-                }
-              }
-            }
-            &._values-container {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              cursor: pointer;
-              padding: 5px;
-              gap: 30px;
-
-              li {
-                list-style: none;
-
-                input {
-                  font-size: 14px;
-                }
-              }
-            }
-          }
-        }
-
-        .totals {
-          position: absolute;
-          bottom: 35px;
-          width: 100%;
-          padding-right: 10%;
-
-          .total {
-            display: flex;
-            justify-content: space-between;
-            padding: 30px;
-
-            li {
-              list-style: none;
-              font-size: 16px;
-              font-weight: 500;
-
-              &:last-child {
-                font-weight: 800;
-              }
-            }
-          }
-        }
-
-        button {
-          position: absolute;
-          bottom: 10px;
-          width: 110px;
-          left: 37%;
-        }
-      }
-
-      button.create-btn {
-        margin-top: 10px;
-        width: 55%;
-      }
-    }
-
-    .preview-bill-form {
-      width: 600px;
-      background-color: #fff;
-      border: 1px solid #087ca7;
-      min-height: 750px;
-      .header {
-        background-color: #087ca7;
-        height: fit-content;
-        padding: 30px;
-        border-radius: 0;
-
-        h3 {
-          text-align: center;
-          font-weight: 800;
-          text-transform: uppercase;
-          color: #fff;
-          margin-bottom: 10px;
-        }
-
-        .timing {
-          display: flex;
-          justify-content: space-between;
-          padding: 10px 10%;
-
-          p {
-            margin-bottom: 3px;
-            color: #fff;
-            font-size: 14px;
-            &:first-child {
-              text-transform: uppercase;
-              font-weight: 600;
-            }
-          }
-        }
-      }
-      .list {
-        padding: 30px 50px;
-        .title {
-          background-color: #087ca7;
-          display: flex;
-          justify-content: space-between;
-          color: #fff;
-          padding: 15px;
-
-          p {
-            margin-bottom: 0;
-            text-transform: uppercase;
-            font-weight: 600;
-          }
-        }
-        .bill-items {
-          .item {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px;
-            padding-bottom: 0px;
-            border-bottom: 1px solid #e7e7e7;
-
-            p {
-              font-size: 14px;
-              text-transform: uppercase;
-              &:first {
-                font-weight: 600;
-              }
-            }
-          }
-        }
-        .totals {
-          display: flex;
-          justify-content: flex-end;
-          margin-top: 30px;
-          gap: 10px;
-          text-transform: uppercase;
-          font-weight: 700;
-          font-size: 18px;
-        }
-        .payment-info {
-          .payment-qr {
-            text-align: center;
-            i {
-              font-size: 150px;
-            }
-          }
-          p {
-            text-align: center;
-            font-weight: 400;
-            font-size: 14px;
-
-            span {
-              font-weight: 800;
-            }
-          }
-        }
-      }
-    }
-  }
-} */
-
 .layout-view {
   background-color: #fdfdfd;
   padding: 10px;
@@ -730,7 +481,7 @@ button {
       font-size: 18px;
       margin-bottom: 2px;
       font-weight: 700;
-      width: 160px;
+      width: 135px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -845,7 +596,7 @@ button {
       .title-header {
         h2 {
           font-size: 24px;
-          font-weight: 600;
+          font-weight: 700;
         }
 
         h5 {
@@ -880,6 +631,18 @@ button {
       i {
         font-size: 20px;
         margin-right: 5px;
+      }
+    }
+  }
+
+  table {
+    tbody {
+      tr {
+        cursor: pointer;
+        td,
+        th {
+          font-size: 15px;
+        }
       }
     }
   }
