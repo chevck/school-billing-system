@@ -1,4 +1,25 @@
 @media only screen and (max-width: 600px) {
+  .button-menu {
+    border: 1px solid #e2e2e2;
+    width: fit-content;
+    display: block !important;
+
+    &:hover {
+      border: 1px solid #e2e2e2;
+    }
+  }
+
+  .offcanvas {
+    &.mobile-menu-offcanvas {
+      width: fit-content;
+
+      .offcanvas-header,
+      .offcanvas-body {
+        padding: 10px;
+      }
+    }
+  }
+
   .create-bill-container {
     .content {
       padding: 15px;
@@ -21,6 +42,7 @@
             &._mobile {
               display: flex;
               flex: none;
+              margin-bottom: 100px;
 
               button {
                 &.process {
@@ -161,6 +183,39 @@
             font-size: 18px;
             margin-top: 20px;
           }
+        }
+      }
+    }
+  }
+
+  .layout-view {
+    padding: 0;
+
+    .user-container {
+      margin-left: 0;
+    }
+
+    .desktop-menu {
+      display: none;
+    }
+
+    .menu {
+      border-bottom: none;
+      margin-top: 10px;
+      padding-left: 0;
+
+      ul a p {
+        font-size: 13px;
+      }
+    }
+
+    .content-container {
+      border: 0;
+      .content-header {
+        height: 100%;
+
+        input {
+          width: 85%;
         }
       }
     }

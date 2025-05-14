@@ -174,34 +174,47 @@ button {
           }
         }
 
-        .item {
-          display: flex;
+        .item-wrapper {
+          padding: 4px;
           border: 1px solid #e7e7e7;
-          justify-content: space-between;
-          align-items: center;
-          padding: 8px;
           border-radius: 10px;
-          gap: 5px;
+          margin-bottom: 10px;
 
-          div {
+          .move-icon {
+            padding: 0 4px;
+          }
+
+          .delete-icon {
+            padding: 0 4px;
+            font-size: 11px;
+            text-decoration: underline;
+            color: crimson;
+            margin-bottom: 4px;
+          }
+
+          .item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            i {
-              cursor: pointer;
+            padding: 8px 4px;
+            gap: 5px;
 
-              &.delete-icon {
-                color: crimson;
+            div {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              i {
+                cursor: pointer;
               }
-            }
-            li {
-              list-style: none;
+              li {
+                list-style: none;
 
-              input {
-                font-size: 14px;
+                input {
+                  font-size: 14px;
 
-                &:first-child {
-                  font-weight: 600;
+                  &:first-child {
+                    font-weight: 600;
+                  }
                 }
               }
             }
@@ -550,6 +563,12 @@ button {
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #e7e7e7;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      .button-menu {
+        display: none;
+      }
 
       input {
         width: 250px;
@@ -614,6 +633,7 @@ button {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    flex-wrap: wrap;
 
     a {
       font-size: 14px;
@@ -636,12 +656,21 @@ button {
   }
 
   table {
+    thead {
+      tr {
+        th {
+          white-space: nowrap;
+          font-size: 13px;
+        }
+      }
+    }
     tbody {
       tr {
         cursor: pointer;
         td,
         th {
-          font-size: 15px;
+          font-size: 13px;
+          white-space: nowrap;
         }
       }
     }
