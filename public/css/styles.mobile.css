@@ -90,101 +90,6 @@
           }
         }
       }
-
-      .bill-preview {
-        margin-top: 15px;
-        border: 1px solid #e2e2e2;
-        min-height: 300px;
-        border-radius: 10px;
-        overflow: hidden;
-
-        .header__ {
-          background: #4e8098;
-          padding: 10px 15px;
-          color: #fff;
-
-          h3 {
-            text-align: center;
-            font-weight: 600;
-          }
-
-          .info {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 10px;
-          }
-        }
-
-        .body__ {
-          padding: 20px;
-          .title {
-            display: flex;
-            background-color: #4e8098;
-            color: #fff;
-            justify-content: space-between;
-            padding: 10px 20px;
-            margin-bottom: 5px;
-          }
-
-          ul {
-            list-style: none;
-            display: flex;
-            padding-left: 0;
-            padding: 9px 20px;
-            justify-content: space-between;
-            border-bottom: 1px solid #e7e7e7;
-            margin-bottom: 0;
-          }
-
-          .totals {
-            margin-top: 20px;
-
-            div {
-              display: flex;
-              padding: 5px 15px;
-              justify-content: space-between;
-
-              p {
-                margin-bottom: 0;
-                font-size: 14px;
-              }
-
-              &.bolder {
-                p {
-                  font-weight: 700;
-                }
-              }
-            }
-          }
-
-          .payment {
-            text-align: center;
-
-            .qr i {
-              font-size: 140px;
-            }
-          }
-        }
-
-        .empty__bill_container {
-          padding: 20px;
-          height: 100px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-
-          img {
-            width: 60px;
-            height: 50px;
-          }
-
-          h4 {
-            font-size: 18px;
-            margin-top: 20px;
-          }
-        }
-      }
     }
   }
 
@@ -217,6 +122,110 @@
         input {
           width: 85%;
         }
+      }
+    }
+  }
+
+  .bill-preview {
+    margin-top: 15px;
+    border: 1px solid #e2e2e2;
+    min-height: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 150px;
+
+    .header__ {
+      background: #4e8098;
+      padding: 15px;
+      color: #fff;
+
+      h3 {
+        text-align: center;
+        font-weight: 900;
+      }
+
+      .info {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+
+        h6 {
+          font-size: 15px;
+        }
+
+        p {
+          font-size: 12px;
+        }
+      }
+    }
+
+    .body__ {
+      padding: 20px;
+      .title {
+        display: flex;
+        background-color: #4e8098;
+        color: #fff;
+        justify-content: space-between;
+        padding: 10px 20px;
+        margin-bottom: 5px;
+      }
+
+      ul {
+        list-style: none;
+        display: flex;
+        padding-left: 0;
+        padding: 9px 20px;
+        justify-content: space-between;
+        border-bottom: 1px solid #e7e7e7;
+        margin-bottom: 0;
+      }
+
+      .totals {
+        margin-top: 20px;
+
+        div {
+          display: flex;
+          padding: 5px 15px;
+          justify-content: space-between;
+
+          p {
+            margin-bottom: 0;
+            font-size: 14px;
+          }
+
+          &.bolder {
+            p {
+              font-weight: 700;
+            }
+          }
+        }
+      }
+
+      .payment {
+        text-align: center;
+
+        .qr i {
+          font-size: 140px;
+        }
+      }
+    }
+
+    .empty__bill_container {
+      padding: 20px;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      img {
+        width: 60px;
+        height: 50px;
+      }
+
+      h4 {
+        font-size: 18px;
+        margin-top: 20px;
       }
     }
   }

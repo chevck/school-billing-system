@@ -597,13 +597,15 @@ function BillPreviewMobile({
                   {formatMoney(processedBill?.subtotal || 0)}
                 </p>
               </div>
-              <div className="">
-                <p>Discount (10%)</p>
-                <p>
-                  {NAIRA_SYMBOL}
-                  {formatMoney(processedBill?.discount || 0)}
-                </p>
-              </div>
+              {processedBill?.discount ? (
+                <div className="">
+                  <p>Discount (10%)</p>
+                  <p>
+                    {NAIRA_SYMBOL}
+                    {formatMoney(processedBill?.discount || 0)}
+                  </p>
+                </div>
+              ) : null}
               <div className="bolder">
                 <p className="">Total</p>
                 <p>
@@ -623,18 +625,18 @@ function BillPreviewMobile({
               <div className="qr">
                 <i className="bi bi-qr-code"></i>
               </div>
-              <p>
-                You can send the money{" "}
-                <b>
-                  <i>
-                    {NAIRA_SYMBOL} {formatMoney(processedBill?.total || 0)}{" "}
-                  </i>
-                </b>{" "}
-                to <b>ACCESS BANK</b>
-                <i className="bi bi-dot"></i>
-                <b>01291019101</b> <i className="bi bi-dot"></i>
-                <b>The Crystal School</b>
-              </p>
+              <div className="payment-instruction">
+                <p>Please pay your fees to the account below:</p>
+                <p>
+                  <span>Bank Name:</span>Access Bank
+                </p>
+                <p>
+                  <span>Account Number:</span> 1392001900
+                </p>
+                <p>
+                  <span>Account Name:</span> The Crystal Height School
+                </p>
+              </div>
             </div>
           </div>
         ) : (
