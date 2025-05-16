@@ -1,13 +1,12 @@
 import { useState, useRef } from "react";
-// import ImageOne from "../assets/maths.png";
 import ImageBill from "../assets/bill.png";
 import { toast } from "react-toastify";
 import { BillCreateStructure, ProcessedBill } from "../utils/types";
 import { formatMoney } from "../utils";
 import { Loading } from "../components/loading";
 import { useNavigate } from "react-router-dom";
-import { useReactToPrint } from "react-to-print";
 import { CLASSES, NAIRA_SYMBOL } from "../utils/constants";
+import html2canvas from "html2canvas";
 
 const initialStructure: BillCreateStructure = {
   key: "School Fees",
@@ -45,9 +44,6 @@ export function CreateBill() {
     useDiscount: false,
   });
   const componentRef = useRef(null);
-
-  console.log({ screenPage });
-  const reactToPrintFn = useReactToPrint({ contentRef: componentRef });
 
   const handleAddToBillStructure = () => {
     if (!edit) setEdit(true);
@@ -154,6 +150,18 @@ export function CreateBill() {
     setProcessing(false);
   };
 
+  const downloadDivAsImage = async () => {
+    const element = document.getElementById("bill-preview");
+    if (!element) return;
+    const canvas = await html2canvas(element);
+    const dataURL = canvas.toDataURL("image/png");
+
+    const link = document.createElement("a");
+    link.href = dataURL;
+    link.download = `${user.student.concat("-")}-bill.png`;
+    link.click();
+  };
+
   return (
     <div className="container-fluid create-bill-container">
       <div className="header">
@@ -183,6 +191,7 @@ export function CreateBill() {
                     onChange={({ target: { value } }) =>
                       setUser({ ...user, student: value })
                     }
+                    value={user.student}
                   />
                 </div>{" "}
                 <div className="user__">
@@ -193,6 +202,7 @@ export function CreateBill() {
                     onChange={({ target: { value } }) =>
                       setUser({ ...user, parent: value })
                     }
+                    value={user.parent}
                   />
                 </div>
                 <div className="user__">
@@ -203,6 +213,7 @@ export function CreateBill() {
                     onChange={({ target: { value } }) =>
                       setUser({ ...user, session: value })
                     }
+                    value={user.session}
                   />
                 </div>
                 <div className="user__">
@@ -375,12 +386,15 @@ export function CreateBill() {
             ) : (
               <div className="mobile-preview">
                 <BillPreviewMobile
-                  edit={edit}
-                  setEdit={setEdit}
+                  edit={edit && screenPage === 1}
+                  setEdit={(edit) => {
+                    setEdit(edit);
+                    setScreenPage(1);
+                  }}
                   processedBill={processedBill}
                   user={user}
-                  reactToPrintFn={reactToPrintFn}
                   componentRef={componentRef}
+                  downloadDivAsImage={downloadDivAsImage}
                 />
               </div>
             )}
@@ -402,7 +416,7 @@ export function CreateBill() {
                   >
                     <i className="bi bi-pen edit"></i>Edit
                   </div>
-                  <div onClick={reactToPrintFn}>
+                  <div onClick={downloadDivAsImage}>
                     <i className="bi bi-file-earmark-pdf-fill"></i>PDF
                   </div>
                   <div className="email">
@@ -514,8 +528,8 @@ function BillPreviewMobile({
   setEdit,
   processedBill,
   user,
-  reactToPrintFn,
   componentRef,
+  downloadDivAsImage,
 }: {
   edit: boolean;
   setEdit: (value: boolean) => void;
@@ -526,8 +540,8 @@ function BillPreviewMobile({
     student: string;
     parent: string;
   };
-  reactToPrintFn: () => void;
   componentRef: React.RefObject<HTMLDivElement | null>;
+  downloadDivAsImage: () => void;
 }) {
   return (
     <div className="mobile-preview__">
@@ -547,7 +561,7 @@ function BillPreviewMobile({
             <i className="bi bi-pen edit"></i>
             <span>Edit</span>
           </div>
-          <div onClick={reactToPrintFn}>
+          <div onClick={downloadDivAsImage}>
             <i className="bi bi-file-earmark-pdf-fill"></i>
             <span>PDF</span>
           </div>
@@ -561,7 +575,7 @@ function BillPreviewMobile({
           </div>
         </div>
       </div>
-      <div className="bill-preview" ref={componentRef}>
+      <div className="bill-preview" id="bill-preview" ref={componentRef}>
         <div className="header__">
           <h3>The Crystal School</h3>
           <div className="info">
